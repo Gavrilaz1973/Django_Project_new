@@ -1,0 +1,2 @@
+[{"model": "catalog.product", "pk": 1, "fields": {"name": "Galaxi", "description": "Самсунг", "photo": "", "category": 1, "price": 10000, "date_create": "2023-07-27", "date_change": null},
+"pk": 2, "fields": {"name": "i30", "description": "LG", "photo": "", "category": 1, "price": 12000, "date_create": "2023-07-27", "date_change": null}}]

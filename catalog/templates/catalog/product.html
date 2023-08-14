@@ -1,0 +1,39 @@
+{% extends 'catalog/home.html' %}
+{% block content %}
+    <div class="row text-start">
+        <div class="col-lg-9 col-md-6 col-sm-12">
+            <div class="card mb-4 box-shadow">
+                <div class="card-body">
+                    <table class="table table-striped">
+                        <tr>
+                            <td class="w-25">Наименование</td>
+                            <td>{{ product_list.name }}</td>
+                        </tr>
+                        <tr>
+                            <td class="w-25">Описание</td>
+                            <td>{{ product_list.description }}</td>
+                        </tr>
+                        <tr>
+                            <td class="w-25">Категория</td>
+                            <td>{{ product_list.category }}</td>
+                        </tr>
+                        <tr>
+                            <td class="w-25">Цена</td>
+                            <td>{{ product_list.price }}</td>
+                        </tr>
+                        <tr>
+                            <td class="w-25">Дата создания</td>
+                            <td>{{ product_list.date_create }}</td>
+                        </tr>
+                        <tr>
+                            <td class="w-25">Дата изменения</td>
+                            <td>{{ product_list.date_change }}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}
+
