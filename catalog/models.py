@@ -17,6 +17,7 @@ class Category(models.Model):
 
 
 class Product(models.Model):
+    objects = None
     name = models.CharField(max_length=100, verbose_name='Наименование')
     description = models.TextField(**NULLABLE, verbose_name='Описание')
     photo = models.ImageField(upload_to='catalog/', **NULLABLE, verbose_name='Фото')
@@ -31,6 +32,26 @@ class Product(models.Model):
     class Meta:
         verbose_name = 'Продукт'
         verbose_name_plural = 'Продукты'
+
+
+class Blog(models.Model):
+    objects = None
+    title = models.CharField(max_length=150, verbose_name='Заголовок')
+    slug = models.CharField(max_length=150, verbose_name='slug', **NULLABLE)
+    body = models.TextField(verbose_name='Содержимое')
+    preview = models.ImageField(upload_to='blog/', **NULLABLE, verbose_name='Изображение')
+    date_create = models.DateField(**NULLABLE, verbose_name='Дата создания', auto_now_add=True)
+    is_published = models.BooleanField(verbose_name='Опубликовано', default=True)
+    views_count = models.IntegerField(default=0, verbose_name='Просмотры')
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        verbose_name = 'Блог'
+        verbose_name_plural = 'Блог'
+
+
 
 
 
