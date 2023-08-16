@@ -20,11 +20,9 @@
                 <ul class="list-unstyled mt-3 mb-4 text-start m-3">
                     <li>{{ blog.title }}</li>
                 </ul>
-                <button type="button" class="btn btn-lg btn-block btn-outline-primary" href="{% url 'read_blog' blog.pk %}">Читать</button>
-                <button type="button" class="btn btn-lg btn-block btn-outline-primary">Редактировать</button>
-                <button type="button" class="btn btn-lg btn-block btn-outline-primary">Удалить</button>
-
-
+                <a class="btn btn-lg btn-block btn-outline-primary" href="{% url 'read_blog' blog.pk %}">Читать</a>
+                <a class="btn btn-lg btn-block btn-outline-primary" href="{% url 'update_blog' blog.pk %}">Редактировать</a>
+                <a class="btn btn-lg btn-block btn-outline-primary" href="{% url 'delete_blog' blog.pk %}">Удалить</a>
             </div>
         </div>
     </div>
