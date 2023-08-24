@@ -1,11 +1,12 @@
+from django.forms import inlineformset_factory
 from django.shortcuts import render
 from django.urls import reverse_lazy, reverse
 from django.views.generic import TemplateView, ListView, DetailView, CreateView, UpdateView, DeleteView
 from pytils.translit import slugify
 from django import forms
 
-from catalog.forms import ProductForm
-from catalog.models import Product, Blog
+from catalog.forms import ProductForm, VersionForm
+from catalog.models import Product, Blog, Version
 
 
 class ContactView(TemplateView):
@@ -17,22 +18,19 @@ class ContactView(TemplateView):
 
 class ProductDetailView(DetailView):
     model = Product
-
-    def get_context_data(self, *args, **kwargs):
-        context_data = super().get_context_data(**kwargs)
-
-        context_data['product_list'] = Product.objects.get(pk=self.kwargs.get('pk'))
-        return context_data
+    template_name = 'catalog/product_detail.html'
 
 
 class IndexListView(ListView):
-    template_name = 'catalog/index.html'
     model = Product
+    template_name = 'catalog/index.html'
+    context_object_name = 'product'
 
-    def get_queryset(self):
-        queryset = super().get_queryset()
-        queryset = queryset.all()
-        return queryset
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        active_versions = Version.objects.filter(activ_ver=True)
+        context['active_versions'] = active_versions
+        return context
 
 
 class BlogListView(ListView):
@@ -40,7 +38,7 @@ class BlogListView(ListView):
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        queryset = queryset.filter(is_published = True)
+        queryset = queryset.filter(is_published=True)
         return queryset
 
 
@@ -59,6 +57,7 @@ class BlogCreateView(CreateView):
 
 class BlogDetailView(DetailView):
     model = Blog
+    template_name = 'catalog/blog_detail.html'
 
     def get_object(self, queryset=None):
         self.object = super().get_object(queryset)
@@ -66,16 +65,10 @@ class BlogDetailView(DetailView):
         self.object.save()
         return self.object
 
-    def get_context_data(self, *args, **kwargs):
-        context_data = super().get_context_data(**kwargs)
-        context_data['blog_list'] = Blog.objects.get(pk=self.kwargs.get('pk'))
-        return context_data
-
 
 class BlogUpdateView(UpdateView):
     model = Blog
     fields = ('title', 'body')
-    # success_url = reverse_lazy('blog')
 
     def get_success_url(self):
         return reverse('read_blog', args=[self.kwargs.get('pk')])
@@ -96,6 +89,29 @@ class ProductUpdateView(UpdateView):
     model = Product
     form_class = ProductForm
     success_url = reverse_lazy('index')
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        VersionFormset = inlineformset_factory(Product, Version, form=VersionForm, extra=1)
+        if self.request.method == 'POST':
+            context_data['formset'] = VersionFormset(self.request.POST, instance=self.object)
+        else:
+            context_data['formset'] = VersionFormset(instance=self.object)
+        return context_data
+
+    def form_valid(self, form):
+        formset = self.get_context_data()['formset']
+        self.object = form.save()
+        if formset.is_valid():
+            formset.instance = self.object
+            formset.save()
+
+        active_version_id = self.request.POST.get('active_version')  # Получаем значение из POST
+        if active_version_id:
+            active_version = Version.objects.get(id=active_version_id)
+            active_version.is_active = True
+            active_version.save()
+        return super().form_valid(form)
 
 
 class ProductDeleteView(DeleteView):

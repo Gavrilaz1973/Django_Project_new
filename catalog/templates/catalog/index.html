@@ -8,24 +8,29 @@
     <div class="col-12 mb-5">
         <a class="btn btn-primary" href="{% url 'product_create' %}">Добавить продукт</a>
     </div>
-    {% for product in product_list %}
+    {% for object in object_list %}
     <div class="col-3">
         <div class="card mb-4 box-shadow">
             <div class="card-header">
                 <img class="card-img-top"
-                     {# src="/media/{{ product.photo }}" #}
-                     src="{{ product.photo|mymedia }}"
+                     {# src="/media/{{ object.photo }}" #}
+                     src="{{ object.photo|mymedia }}"
                      alt="Card image cap">
-                <h4 class="my-0 font-weight-normal">{{ product.name }}</h4>
+                <h4 class="my-0 font-weight-normal">{{ object.name }}</h4>
             </div>
             <div class="card-body">
-                <h1 class="card-title pricing-card-title">₽ {{ product.price }}</h1>
+                <h1 class="card-title pricing-card-title">₽ {{ object.price }}</h1>
                 <ul class="list-unstyled mt-3 mb-4 text-start m-3">
-                    <li>{{ product.description|truncatewords:100 }}</li>
+                    <li>{{ object.description|truncatewords:100 }}</li>
+                    {% for version in active_versions %}
+                        {% if version.product == object %}
+                            <li>Активная версия: {{ version.number_ver }}</li>
+                    {% endif %}
+                    {% endfor %}
                 </ul>
-                <a class="btn btn-outline-primary" href="{% url 'product' product.pk %}">Описание</a>
-                <a class="btn btn-outline-primary" href="{% url 'product_update' product.pk %}">Редактировать</a>
-                <a class="btn btn-outline-primary" href="{% url 'product_delete' product.pk %}">Удалить</a>
+                <a class="btn btn-outline-primary" href="{% url 'product' object.pk %}">Описание</a>
+                <a class="btn btn-outline-primary" href="{% url 'product_update' object.pk %}">Редактировать</a>
+                <a class="btn btn-outline-primary" href="{% url 'product_delete' object.pk %}">Удалить</a>
             </div>
         </div>
     </div>

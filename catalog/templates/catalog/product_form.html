@@ -1,29 +1,51 @@
 {% extends 'catalog/home.html' %}
 {% block content %}
-<div class="row">
-    <div class="col-6">
-        <div class="card">
-            <div class="card-header">
-                {% if object %}
-                Редактировать продукт
-                {% else %}
-                Добавление продукта
-                {% endif %}
+<form method="post">
+    <div class="row">
+        <div class="col-6">
+            <div class="card">
+                <div class="card-header">
+                    {% if object %}
+                    Редактировать продукт
+                    {% else %}
+                    Добавление продукта
+                    {% endif %}
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <button type="submit" class="btn btn-outline-success">
+                            {% if object %}
+                            Сохранить
+                            {% else %}
+                            Добавить
+                            {% endif %}
+                        </button>
+                        <div class="card-footer"></div>
+                    </form>
+                </div>
             </div>
-            <div class="card-body">
-                <form method="post">
-                    {% csrf_token %}
+        </div>
+        <div class="col-6">
+            <div class="card">
+                <div class="card-header">
+                    Версия продукта
+                </div>
+                <div class="card-body">
+                    {{ formset.management_form }}
+                    {% for form in formset.forms %}
                     {{ form.as_p }}
-                    <button type="submit" class="btn btn-outline-success">
-                        {% if object %}
-                        Сохранить
-                        {% else %}
-                        Добавить
-                        {% endif %}
-                    </button>
-                </form>
+                    {% endfor %}
+<!--                    <div class="form-group">-->
+<!--                        <label for="{{ form.is_active_version.id_for_label }}">{{ form.is_active_version }} Активная версия</label>-->
+<!--                        {{ form.is_active_version }}-->
+<!--                    </div>-->
+                </div>
+                <div class="card-footer"></div>
             </div>
         </div>
     </div>
-</div>
+</form>
+
 {% endblock %}

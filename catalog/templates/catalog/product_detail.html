@@ -1,7 +1,7 @@
 {% extends 'catalog/home.html' %}
 {% block content %}
 <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-    <h1 class="display-4">{{ product_list.name }}</h1>
+    <h1 class="display-4">{{ product.name }}</h1>
 </div>
     <div class="row text-start">
         <div class="col-lg-9 col-md-6 col-sm-12">
@@ -10,27 +10,27 @@
                     <table class="table table-striped">
                         <tr>
                             <td class="w-25">Наименование</td>
-                            <td>{{ product_list.name }}</td>
+                            <td>{{ product.name }}</td>
                         </tr>
                         <tr>
                             <td class="w-25">Описание</td>
-                            <td>{{ product_list.description }}</td>
+                            <td>{{ product.description }}</td>
                         </tr>
                         <tr>
                             <td class="w-25">Категория</td>
-                            <td>{{ product_list.category }}</td>
+                            <td>{{ product.category }}</td>
                         </tr>
                         <tr>
                             <td class="w-25">Цена</td>
-                            <td>{{ product_list.price }}</td>
+                            <td>{{ product.price }}</td>
                         </tr>
                         <tr>
                             <td class="w-25">Дата создания</td>
-                            <td>{{ product_list.date_create }}</td>
+                            <td>{{ product.date_create }}</td>
                         </tr>
                         <tr>
                             <td class="w-25">Дата изменения</td>
-                            <td>{{ product_list.date_change }}</td>
+                            <td>{{ product.date_change }}</td>
                         </tr>
                     </table>
                 </div>
