@@ -1,9 +1,8 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.forms import inlineformset_factory
-from django.shortcuts import render
 from django.urls import reverse_lazy, reverse
 from django.views.generic import TemplateView, ListView, DetailView, CreateView, UpdateView, DeleteView
 from pytils.translit import slugify
-from django import forms
 
 from catalog.forms import ProductForm, VersionForm
 from catalog.models import Product, Blog, Version
@@ -45,7 +44,7 @@ class BlogListView(ListView):
 class BlogCreateView(CreateView):
     model = Blog
     fields = ('title', 'body')
-    success_url = reverse_lazy('blog')
+    success_url = reverse_lazy('catalog:blog')
 
     def form_valid(self, form):
         if form.is_valid():
@@ -76,19 +75,25 @@ class BlogUpdateView(UpdateView):
 
 class BlogDeleteView(DeleteView):
     model = Blog
-    success_url = reverse_lazy('blog')
+    success_url = reverse_lazy('catalog:blog')
 
 
-class ProductCreateView(CreateView):
+class ProductCreateView(LoginRequiredMixin, CreateView):
     model = Product
     form_class = ProductForm
-    success_url = reverse_lazy('index')
+    success_url = reverse_lazy('catalog:index')
+
+    def form_valid(self, form):
+        self.object = form.save()
+        self.object.owner = self.request.user
+        self.object.save()
+        return super().form_valid(form)
 
 
-class ProductUpdateView(UpdateView):
+class ProductUpdateView(LoginRequiredMixin, UpdateView):
     model = Product
     form_class = ProductForm
-    success_url = reverse_lazy('index')
+    success_url = reverse_lazy('catalog:index')
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
@@ -114,9 +119,9 @@ class ProductUpdateView(UpdateView):
         return super().form_valid(form)
 
 
-class ProductDeleteView(DeleteView):
+class ProductDeleteView(LoginRequiredMixin, DeleteView):
     model = Product
-    success_url = reverse_lazy('index')
+    success_url = reverse_lazy('catalog:index')
 
 
 

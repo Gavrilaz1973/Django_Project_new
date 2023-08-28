@@ -1,0 +1,26 @@
+{% extends 'catalog/home.html' %}
+{% block content %}
+<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+    <h1 class="display-4">Профиль</h1>
+</div>
+
+<div class="row">
+    <div class="col-6">
+        <div class="card">
+            <div class="card-body">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="btn btn-outline-success">
+                        Сохранить
+                    </button>
+                </form>
+                <div class="card-footer">
+                    <a href="{% url 'users:generate_new_password' %}" class="btn btn-danger">Сгенерировать пароль</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

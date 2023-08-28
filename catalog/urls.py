@@ -1,7 +1,10 @@
 from django.urls import path
 
+from catalog.apps import CatalogConfig
 from catalog.views import ContactView, IndexListView, ProductDetailView, BlogListView, BlogCreateView, BlogDetailView, \
     BlogUpdateView, BlogDeleteView, ProductCreateView, ProductUpdateView, ProductDeleteView
+
+app_name = CatalogConfig.name
 
 urlpatterns = [
     path('', IndexListView.as_view(), name='index'),

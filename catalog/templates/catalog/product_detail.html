@@ -32,6 +32,10 @@
                             <td class="w-25">Дата изменения</td>
                             <td>{{ product.date_change }}</td>
                         </tr>
+                        <tr>
+                            <td class="w-25">Владелец</td>
+                            <td>{{ product.owner|default:'-' }}</td>
+                        </tr>
                     </table>
                 </div>
             </div>

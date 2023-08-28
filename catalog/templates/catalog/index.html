@@ -6,7 +6,7 @@
 </div>
 <div class="row text-center">
     <div class="col-12 mb-5">
-        <a class="btn btn-primary" href="{% url 'product_create' %}">Добавить продукт</a>
+        <a class="btn btn-primary" href="{% url 'catalog:product_create' %}">Добавить продукт</a>
     </div>
     {% for object in object_list %}
     <div class="col-3">
@@ -28,9 +28,9 @@
                     {% endif %}
                     {% endfor %}
                 </ul>
-                <a class="btn btn-outline-primary" href="{% url 'product' object.pk %}">Описание</a>
-                <a class="btn btn-outline-primary" href="{% url 'product_update' object.pk %}">Редактировать</a>
-                <a class="btn btn-outline-primary" href="{% url 'product_delete' object.pk %}">Удалить</a>
+                <a class="btn btn-outline-primary" href="{% url 'catalog:product' object.pk %}">Описание</a>
+                <a class="btn btn-outline-primary" href="{% url 'catalog:product_update' object.pk %}">Редактировать</a>
+                <a class="btn btn-outline-primary" href="{% url 'catalog:product_delete' object.pk %}">Удалить</a>
             </div>
         </div>
     </div>

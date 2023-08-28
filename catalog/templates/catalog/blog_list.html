@@ -3,7 +3,7 @@
 {% block content %}
 <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
     <h1 class="display-4">Блог</h1>
-    <a class="btn btn-outline-primary" href="{% url 'create_blog' %}">Добавить блог</a>
+    <a class="btn btn-outline-primary" href="{% url 'catalog:create_blog' %}">Добавить блог</a>
 </div>
 
 <div class="row text-center">
@@ -20,9 +20,9 @@
                 <ul class="list-unstyled mt-3 mb-4 text-start m-3">
                     <li>{{ blog.title }}</li>
                 </ul>
-                <a class="btn btn-lg btn-block btn-outline-primary" href="{% url 'read_blog' blog.pk %}">Читать</a>
-                <a class="btn btn-lg btn-block btn-outline-primary" href="{% url 'update_blog' blog.pk %}">Редактировать</a>
-                <a class="btn btn-lg btn-block btn-outline-primary" href="{% url 'delete_blog' blog.pk %}">Удалить</a>
+                <a class="btn btn-lg btn-block btn-outline-primary" href="{% url 'catalog:read_blog' blog.pk %}">Читать</a>
+                <a class="btn btn-lg btn-block btn-outline-primary" href="{% url 'catalog:update_blog' blog.pk %}">Редактировать</a>
+                <a class="btn btn-lg btn-block btn-outline-primary" href="{% url 'catalog:delete_blog' blog.pk %}">Удалить</a>
             </div>
         </div>
     </div>
