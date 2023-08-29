@@ -9,8 +9,11 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
-
+import os
+import ssl
 from pathlib import Path
+
+from django.core.mail.backends import smtp
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -137,9 +140,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'users.User'
 LOGOUT_REDIRECT_URL = '/'
 LOGIN_REDIRECT_URL = '/'
+LOGIN_URL = '/users/'
 
 EMAIL_HOST = 'smtp.yandex.ru'
 EMAIL_PORT = 465
-EMAIL_HOST_USER = 'gavrilaz1973@yandex.ru'  #'fuckup@oscarbot.ru'
-EMAIL_HOST_PASSWORD = 'uvhpwallvvkvwrmt' # 'AsTSNVv7pun9'
+EMAIL_HOST_USER = 'gavrilaz1973@yandex.ru'                  #'fuckup@oscarbot.ru'
+EMAIL_HOST_PASSWORD = 'uvhpwallvvkvwrmt'        # 'AsTSNVv7pun9'
 EMAIL_USE_SSL = True

@@ -1,6 +1,8 @@
 import random
 import string
 
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import send_mail
 from django.contrib.auth.views import LogoutView as BaseLogoutView
@@ -58,7 +60,7 @@ class VerifyEmailView(View):
             return render(request, 'users/registration_failed.html')
 
 
-class UserUpdateView(UpdateView):
+class UserUpdateView(LoginRequiredMixin, UpdateView):
     model = User
     success_url = reverse_lazy('catalog:index')
     form_class = UserForm
@@ -67,6 +69,7 @@ class UserUpdateView(UpdateView):
         return self.request.user
 
 
+@login_required
 def generate_new_password(request):
     new_password = ''.join([str(random.randint(0, 9)) for _ in range(12)])
     send_mail(

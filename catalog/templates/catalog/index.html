@@ -9,6 +9,7 @@
         <a class="btn btn-primary" href="{% url 'catalog:product_create' %}">Добавить продукт</a>
     </div>
     {% for object in object_list %}
+    {% if object.is_published == True %}
     <div class="col-3">
         <div class="card mb-4 box-shadow">
             <div class="card-header">
@@ -23,8 +24,8 @@
                 <ul class="list-unstyled mt-3 mb-4 text-start m-3">
                     <li>{{ object.description|truncatewords:100 }}</li>
                     {% for version in active_versions %}
-                        {% if version.product == object %}
-                            <li>Активная версия: {{ version.number_ver }}</li>
+                    {% if version.product == object %}
+                    <li>Активная версия: {{ version.number_ver }}</li>
                     {% endif %}
                     {% endfor %}
                 </ul>
@@ -34,6 +35,7 @@
             </div>
         </div>
     </div>
+    {% endif %}
     {% endfor %}
 </div>
 {% endblock %}
