@@ -35,9 +35,9 @@ class Product(models.Model):
 
     class Meta:
         permissions = [
-            ('set_published', 'Can publish posts'),
-            ('change_description', 'Can change description'),
-            ('change_category', 'Can change category')
+            ('can_change_is_published_permission', 'Can cancel product publication'),
+            ('can_change_desc_permission', 'Can change product description'),
+            ('can_change_category_permission', 'Can change product category'),
             ]
         verbose_name = 'Продукт'
         verbose_name_plural = 'Продукты'

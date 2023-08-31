@@ -1,4 +1,4 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.forms import inlineformset_factory
 from django.http import Http404
 from django.urls import reverse_lazy, reverse
@@ -91,13 +91,21 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-class ProductUpdateView(LoginRequiredMixin, UpdateView):
+class ProductUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     model = Product
     form_class = ProductForm
     success_url = reverse_lazy('catalog:index')
+    permission_required = [
+        'catalog.can_change_is_published_permission',
+        'catalog.can_change_desc_permission',
+        'catalog.can_change_category_permission',
+    ]
 
     def get_object(self, queryset=None):
         self.object = super().get_object(queryset)
+        if self.request.user.is_staff:
+            return self.object
+
         if self.object.owner != self.request.user:
             raise Http404
         return self.object
