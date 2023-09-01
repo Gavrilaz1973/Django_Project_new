@@ -7,6 +7,7 @@ from pytils.translit import slugify
 
 from catalog.forms import ProductForm, VersionForm, ProductCuttedForm
 from catalog.models import Product, Blog, Version
+from catalog.services import get_cache_categories
 
 
 class ContactView(TemplateView):
@@ -30,6 +31,7 @@ class IndexListView(ListView):
         context = super().get_context_data(**kwargs)
         active_versions = Version.objects.filter(activ_ver=True)
         context['active_versions'] = active_versions
+        context['categories'] = get_cache_categories()
         return context
 
 
