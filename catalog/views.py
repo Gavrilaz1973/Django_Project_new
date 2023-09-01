@@ -1,11 +1,11 @@
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin
 from django.forms import inlineformset_factory
 from django.http import Http404
 from django.urls import reverse_lazy, reverse
 from django.views.generic import TemplateView, ListView, DetailView, CreateView, UpdateView, DeleteView
 from pytils.translit import slugify
 
-from catalog.forms import ProductForm, VersionForm
+from catalog.forms import ProductForm, VersionForm, ProductCuttedForm
 from catalog.models import Product, Blog, Version
 
 
@@ -91,24 +91,24 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-class ProductUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+class ProductUpdateView(LoginRequiredMixin, UpdateView):
     model = Product
     form_class = ProductForm
     success_url = reverse_lazy('catalog:index')
-    permission_required = [
-        'catalog.can_change_is_published_permission',
-        'catalog.can_change_desc_permission',
-        'catalog.can_change_category_permission',
-    ]
+    permission_required = 'catalog.change_product'
+
 
     def get_object(self, queryset=None):
         self.object = super().get_object(queryset)
-        if self.request.user.is_staff:
+        if self.request.user.groups.filter(name='Модераторы').exists():
+            self.form_class = ProductCuttedForm
             return self.object
-
+        if self.request.user.is_superuser:
+            return self.object
         if self.object.owner != self.request.user:
             raise Http404
         return self.object
+
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)

@@ -46,8 +46,20 @@ class VersionForm(forms.ModelForm):
     # active_version = forms.BooleanField(required=False, label="Активная версия")
 
 
+class ProductCuttedForm(forms.ModelForm):
+    name = forms.CharField(max_length=100, disabled=True)
+    # description = models.TextField(**NULLABLE, verbose_name='Описание')
+    photo = forms.ImageField(disabled=True)
+    # category = models.ForeignKey(Category, on_delete=models.SET_NULL, verbose_name='Категория', **NULLABLE)
+    price = forms.IntegerField(disabled=True)
+    # date_create = models.DateField(**NULLABLE, verbose_name='Дата создания', auto_now_add=True)
+    # date_change = models.DateField(**NULLABLE, verbose_name='Дата изменения', auto_now=True)
+    # owner = forms.ForeignKey(disabled=True)
+    # is_published = models.BooleanField(verbose_name='Опубликовано', default=False)
 
-
+    class Meta:
+        model = Product
+        exclude = ('owner',)
 
 
 
